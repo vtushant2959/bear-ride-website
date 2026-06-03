@@ -1,30 +1,22 @@
-import {
-  Navigate,
-} from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-import {
-  useAuth,
-} from "../context/AuthContext";
+function RoleProtectedRoute({ children, allowedRole }) {
+  const { user } = useAuth();
 
-function RoleProtectedRoute({
-  children,
-  allowedRole,
-}) {
+  if (!user) return <Navigate to="/login" />;
 
-  const {
-    user,
-  } = useAuth();
+  /* Allow admin bypass set from AdminAccess page */
+  const adminBypass = localStorage.getItem("bearride_admin_bypass") === "true";
 
-  if (
-    user?.role !==
-    allowedRole
-  ) {
+  if (allowedRole === "ADMIN" && (user.role === "ADMIN" || adminBypass)) {
+    return children;
+  }
 
-    return (
-      <Navigate
-        to="/"
-      />
-    );
+  if (user.role !== allowedRole) {
+    /* If trying to reach admin but not admin → send to access page */
+    if (allowedRole === "ADMIN") return <Navigate to="/admin/access" />;
+    return <Navigate to="/" />;
   }
 
   return children;

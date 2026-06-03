@@ -37,10 +37,10 @@ function Sidebar() {
 
   const adminMenu = [
     { icon: <FaHome />, title: "Dashboard", path: "/admin" },
-    { icon: <FaUsers />, title: "Users", path: "/admin/users" },
-    { icon: <FaCar />, title: "Bookings", path: "/admin/bookings" },
-    { icon: <FaChartBar />, title: "Analytics", path: "/admin/analytics" },
-    { icon: <FaCog />, title: "Settings", path: "/admin/settings" },
+    { icon: <FaUsers />, title: "Users", path: "/admin" },
+    { icon: <FaCar />, title: "Bookings", path: "/admin" },
+    { icon: <FaChartBar />, title: "Analytics", path: "/admin" },
+    { icon: <FaCog />, title: "Settings", path: "/admin" },
   ];
 
   let menu = customerMenu;
