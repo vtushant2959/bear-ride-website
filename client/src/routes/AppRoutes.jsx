@@ -39,6 +39,7 @@ import AdminBookings from "../pages/admin/AdminBookings";
 
 /* BOOKING */
 import Booking from "../pages/booking/Booking";
+import BookingConfirmation from "../pages/booking/BookingConfirmation";
 
 /* SERVICES */
 import Wallet from "../pages/services/Wallet";
@@ -79,6 +80,7 @@ function AppRoutes() {
 
       {/* ================= BOOKING ================= */}
       <Route path="/booking" element={<ProtectedRoutes><Booking /></ProtectedRoutes>} />
+      <Route path="/booking/confirmation" element={<ProtectedRoutes><BookingConfirmation /></ProtectedRoutes>} />
 
       {/* ================= SERVICE PAGES ================= */}
       <Route path="/wallet" element={<ProtectedRoutes><Wallet /></ProtectedRoutes>} />

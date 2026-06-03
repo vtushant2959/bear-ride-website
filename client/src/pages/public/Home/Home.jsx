@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import HeroSlider from "../../../components/Home/HeroSlider";
-import HeroSlider1 from "../../../components/Home/HeroSlider1";
 import FadeUp from "../../../components/animations/FadeUp";
 import FadeLeft from "../../../components/animations/FadeLeft";
 import FadeRight from "../../../components/animations/FadeRight";
@@ -333,9 +332,141 @@ function Home() {
       </section>
 
       {/* ═══════════════════════════════
-          IMAGE BANNER SLIDER
+          CHOOSE YOUR RIDE — Vehicle Showcase
       ═══════════════════════════════ */}
-      <HeroSlider1 />
+      <section className="section-padding bg-zinc-950 relative overflow-hidden">
+        {/* Decorative glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-yellow-400/5 blur-[160px] rounded-full pointer-events-none" />
+
+        <div className="container-main px-5 relative z-10">
+          <FadeUp>
+            <div className="text-center mb-16">
+              <div className="inline-block bg-yellow-400/10 border border-yellow-400/20 px-5 py-2 rounded-full text-yellow-400 font-semibold mb-5">
+                Pick Your Ride
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black gradient-text mb-5">Choose Your Vehicle</h2>
+              <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-9">
+                From budget bike rides to premium AC cabs — BearRide has the right vehicle for every trip.
+              </p>
+            </div>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                type: "BIKE",
+                name: "BearBike",
+                tagline: "Fastest in the city",
+                price: "₹10/km",
+                minFare: "₹20 min fare",
+                eta: "~2 min arrival",
+                badge: "Most Popular",
+                badgeColor: "bg-yellow-400 text-black",
+                img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=700&q=90",
+                features: ["Beat traffic", "Instant pickup", "Eco-friendly"],
+                borderColor: "hover:border-yellow-400",
+              },
+              {
+                type: "AUTO",
+                name: "BearAuto",
+                tagline: "Affordable & comfortable",
+                price: "₹15/km",
+                minFare: "₹30 min fare",
+                eta: "~4 min arrival",
+                badge: "Best Value",
+                badgeColor: "bg-green-400 text-black",
+                img: "https://images.unsplash.com/photo-1603189343302-e603f7add05a?w=700&q=90",
+                features: ["3-seat comfort", "Open air rides", "City travel"],
+                borderColor: "hover:border-green-400",
+              },
+              {
+                type: "CAB",
+                name: "BearCab",
+                tagline: "Premium AC experience",
+                price: "₹20/km",
+                minFare: "₹50 min fare",
+                eta: "~6 min arrival",
+                badge: "Premium",
+                badgeColor: "bg-blue-400 text-white",
+                img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=700&q=90",
+                features: ["Full AC cabin", "4 passengers", "Business rides"],
+                borderColor: "hover:border-blue-400",
+              },
+            ].map((v, i) => (
+              <ScaleUp key={i}>
+                <div className={`group bg-black border border-yellow-500/10 rounded-[32px] overflow-hidden transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_0_60px_rgba(250,204,21,0.12)] ${v.borderColor}`}>
+
+                  {/* Image */}
+                  <div className="relative h-52 overflow-hidden">
+                    <img src={v.img} alt={v.name} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+
+                    {/* Badge */}
+                    <span className={`absolute top-4 right-4 ${v.badgeColor} text-xs font-black px-3 py-1.5 rounded-full`}>{v.badge}</span>
+
+                    {/* Vehicle name overlay */}
+                    <div className="absolute bottom-4 left-4">
+                      <p className="text-white font-black text-2xl">{v.name}</p>
+                      <p className="text-gray-300 text-sm">{v.tagline}</p>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-7">
+                    <div className="flex items-center justify-between mb-5">
+                      <div>
+                        <p className="text-yellow-400 font-black text-3xl">{v.price}</p>
+                        <p className="text-gray-500 text-xs mt-0.5">{v.minFare}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-white font-bold">{v.eta}</p>
+                        <div className="flex items-center gap-1 mt-1 justify-end">
+                          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                          <span className="text-green-400 text-xs font-bold">Available</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Features */}
+                    <div className="space-y-2 mb-6">
+                      {v.features.map((f) => (
+                        <div key={f} className="flex items-center gap-3">
+                          <FaCheckCircle className="text-yellow-400 text-sm flex-shrink-0" />
+                          <span className="text-gray-300 text-sm">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA */}
+                    <Link
+                      to="/booking"
+                      className="flex items-center justify-center gap-3 w-full bg-yellow-400 text-black py-4 rounded-2xl font-black hover:scale-[1.02] transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.15)]"
+                    >
+                      Book {v.name} <FaArrowRight className="text-sm" />
+                    </Link>
+                  </div>
+                </div>
+              </ScaleUp>
+            ))}
+          </div>
+
+          {/* Bottom promo strip */}
+          <FadeUp>
+            <div className="mt-12 bg-gradient-to-r from-yellow-400/10 via-yellow-400/5 to-yellow-400/10 border border-yellow-400/20 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <span className="text-3xl">🎁</span>
+                <div>
+                  <p className="font-black text-xl">First Ride Free!</p>
+                  <p className="text-gray-400 text-sm">New users get ₹100 off their first BearRide booking</p>
+                </div>
+              </div>
+              <Link to="/register" className="flex-shrink-0 bg-yellow-400 text-black px-8 py-4 rounded-2xl font-black hover:scale-105 transition-all">
+                Claim Offer →
+              </Link>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
 
       {/* ═══════════════════════════════
           WHY CHOOSE US — with image
