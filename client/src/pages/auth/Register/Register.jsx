@@ -27,30 +27,27 @@ function Register() {
     e.preventDefault();
 
     const digits = phone.replace(/\D/g, "");
-    if (!fullName) { toast.error("Please enter your full name"); return; }
-    if (!digits || digits.length < 10) { toast.error("Enter a valid 10-digit phone number"); return; }
+    if (!fullName)              { toast.error("Please enter your full name"); return; }
+    if (digits.length !== 10)   { toast.error("Enter a valid 10-digit mobile number"); return; }
 
     try {
       setLoading(true);
 
-      // Build E.164 format
-      const raw = phone.replace(/\s+/g, "");
-      const e164 = raw.startsWith("+") ? raw : `+91${raw}`;
+      // Always build clean E.164: +91 + 10 digits
+      const e164 = `+91${digits}`;
 
       const confirmationResult = await setupRecaptcha(e164);
       window.confirmationResult = confirmationResult;
       localStorage.setItem("bearride_register_data", JSON.stringify({ fullName, email, phone: e164, role }));
-      toast.success("OTP sent to " + e164);
+      toast.success(`OTP sent to +91 ${digits}`);
       navigate("/otp", { state: { phone: e164, isRegister: true } });
     } catch (error) {
       console.error(error);
-      if (error.code === "auth/invalid-phone-number") {
-        toast.error("Invalid phone number — use a valid 10-digit Indian number");
-      } else if (error.code === "auth/too-many-requests") {
-        toast.error("Too many attempts. Please try again later.");
-      } else {
-        toast.error("Failed to send OTP. Try again.");
-      }
+      if (error.code === "auth/invalid-phone-number")    toast.error("Invalid number. Use a valid 10-digit Indian mobile.");
+      else if (error.code === "auth/too-many-requests")  toast.error("Too many attempts. Please wait and try again.");
+      else if (error.code === "auth/operation-not-allowed") toast.error("Phone auth not enabled. Contact support.");
+      else if (error.message?.includes("container"))     toast.error("Page error. Please refresh and try again.");
+      else toast.error("Failed to send OTP. Try again.");
     } finally {
       setLoading(false);
     }
@@ -142,20 +139,21 @@ function Register() {
 
               <div>
                 <label className="block mb-3 text-gray-300 font-medium">Phone Number *</label>
-                <div className="relative">
-                  <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-400">
-                    <span>🇮🇳</span>
-                    <span className="border-r border-yellow-500/20 pr-3">+91</span>
+                <div className="flex gap-3">
+                  <div className="flex items-center gap-2 bg-black border border-yellow-500/20 rounded-2xl px-4 py-5 text-gray-300 font-bold whitespace-nowrap flex-shrink-0">
+                    🇮🇳 +91
                   </div>
                   <input
                     type="tel"
+                    inputMode="numeric"
                     required
                     placeholder="98765 43210"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-black border border-yellow-500/20 rounded-2xl pl-24 pr-6 py-5 outline-none text-white focus:border-yellow-400 transition-all"
+                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                    className="flex-1 bg-black border border-yellow-500/20 rounded-2xl px-6 py-5 outline-none text-white text-xl font-bold tracking-widest focus:border-yellow-400 transition-all"
                   />
                 </div>
+                <p className="text-gray-600 text-xs mt-2 ml-1">Digits only — 10 numbers</p>
               </div>
 
               <div className="flex items-start gap-3 bg-black border border-yellow-500/10 rounded-2xl p-4">
@@ -171,10 +169,17 @@ function Register() {
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-3 bg-yellow-400 text-black py-5 rounded-2xl font-black hover:scale-[1.02] transition-all shadow-[0_0_40px_rgba(250,204,21,0.2)]"
+                disabled={loading || phone.replace(/\D/g, "").length !== 10 || !fullName}
+                className="w-full flex items-center justify-center gap-3 bg-yellow-400 text-black py-5 rounded-2xl font-black hover:scale-[1.02] transition-all shadow-[0_0_40px_rgba(250,204,21,0.2)] disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
               >
-                {loading ? "Sending OTP..." : <>Create Account <FaArrowRight /></>}
+                {loading ? (
+                  <span className="flex items-center gap-3">
+                    <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    Sending OTP...
+                  </span>
+                ) : (
+                  <>Create Account <FaArrowRight /></>
+                )}
               </button>
             </form>
 
@@ -197,8 +202,10 @@ function Register() {
           </div>
         </div>
 
-        <div id="recaptcha-container" />
       </section>
+
+      {/* reCAPTCHA — must be OUTSIDE the form/section, always in DOM */}
+      <div id="recaptcha-container" />
 
       <Footer />
     </>
