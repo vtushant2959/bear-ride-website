@@ -51,7 +51,7 @@ function Login() {
         {/* Background */}
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1400&q=80"
             alt="bg"
             className="w-full h-full object-cover opacity-10"
           />

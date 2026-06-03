@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {
   FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube,
   FaMotorcycle, FaTruck, FaBox, FaBuilding, FaPhone, FaEnvelope,
-  FaMapMarkerAlt, FaArrowRight,
+  FaMapMarkerAlt, FaArrowRight, FaApple, FaGooglePlay,
 } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 
@@ -64,14 +64,14 @@ function Footer() {
             {/* STORE BADGES */}
             <div className="flex gap-3 mt-6">
               <div className="bg-black border border-yellow-500/10 rounded-xl px-4 py-3 flex items-center gap-3 hover:border-yellow-400/40 transition-all cursor-pointer">
-                <span className="text-2xl">🍎</span>
+                <FaApple className="text-white text-2xl flex-shrink-0" />
                 <div>
                   <p className="text-gray-500 text-xs">Download on</p>
                   <p className="text-white font-bold text-sm">App Store</p>
                 </div>
               </div>
               <div className="bg-black border border-yellow-500/10 rounded-xl px-4 py-3 flex items-center gap-3 hover:border-yellow-400/40 transition-all cursor-pointer">
-                <span className="text-2xl">▶</span>
+                <FaGooglePlay className="text-white text-2xl flex-shrink-0" />
                 <div>
                   <p className="text-gray-500 text-xs">Get it on</p>
                   <p className="text-white font-bold text-sm">Google Play</p>

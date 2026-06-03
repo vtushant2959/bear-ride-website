@@ -11,7 +11,7 @@ const BLOGS = [
     mins: 5,
     author: "Rahul Sharma",
     date: "May 28, 2026",
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=700&q=80",
     description: "Discover how AI and smart logistics systems are transforming delivery infrastructure across India at an unprecedented pace.",
     featured: true,
   },
@@ -21,7 +21,7 @@ const BLOGS = [
     mins: 4,
     author: "Priya Mehta",
     date: "May 25, 2026",
-    img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?auto=format&fit=crop&w=700&q=80",
     description: "Urban mobility is evolving rapidly with affordable and faster bike taxi transportation systems.",
   },
   {
@@ -30,7 +30,7 @@ const BLOGS = [
     mins: 6,
     author: "Aman Verma",
     date: "May 22, 2026",
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
     description: "Modern businesses require scalable fleet management and transportation ecosystems to stay competitive.",
   },
   {
@@ -39,7 +39,7 @@ const BLOGS = [
     mins: 4,
     author: "Sneha Kapoor",
     date: "May 18, 2026",
-    img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=700&q=80",
     description: "Customers trust platforms that provide accurate delivery visibility and real-time live updates.",
   },
   {
@@ -48,7 +48,7 @@ const BLOGS = [
     mins: 7,
     author: "Vikram Singh",
     date: "May 14, 2026",
-    img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80",
     description: "Reduce operational costs and improve delivery speed using intelligent AI-driven route optimization.",
   },
   {
@@ -57,7 +57,7 @@ const BLOGS = [
     mins: 5,
     author: "Anjali Nair",
     date: "May 10, 2026",
-    img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=700&q=80",
     description: "India's logistics ecosystem is entering a technology-driven transformation era with massive growth potential.",
   },
 ];
@@ -76,7 +76,7 @@ function Blog() {
       <section className="bg-black text-white py-32 relative overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1493612276216-ee3925520721?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=1400&q=80"
             alt="Blog Hero"
             className="w-full h-full object-cover opacity-10"
           />

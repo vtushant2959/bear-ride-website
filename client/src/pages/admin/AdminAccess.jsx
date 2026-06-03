@@ -53,7 +53,7 @@ function AdminAccess() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80"
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"
           alt="admin"
           className="w-full h-full object-cover opacity-8"
         />

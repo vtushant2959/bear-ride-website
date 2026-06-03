@@ -36,7 +36,7 @@ function About() {
       <section className="relative min-h-[85vh] bg-black overflow-hidden flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1400&q=90"
+            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1400&q=90"
             alt="India City"
             className="w-full h-full object-cover opacity-15"
           />
@@ -72,7 +72,7 @@ function About() {
             <div className="relative">
               <div className="rounded-[40px] overflow-hidden border border-yellow-500/20 shadow-[0_0_80px_rgba(250,204,21,0.08)]">
                 <img
-                  src="https://images.unsplash.com/photo-1556742400-b5b7b99c2e02?w=900&q=80"
+                  src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=formatphoto-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=900&q=80fit=cropphoto-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=900&q=80w=900photo-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=900&q=80q=80"
                   alt="BearRide Mission"
                   className="w-full h-[600px] object-cover"
                 />

@@ -27,7 +27,7 @@ function Contact() {
       <section className="relative bg-black py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1400&q=80"
             alt="Contact"
             className="w-full h-full object-cover opacity-10"
           />
@@ -193,7 +193,7 @@ function Contact() {
               {/* Map placeholder with real background */}
               <div className="rounded-[40px] overflow-hidden border border-yellow-500/20 relative h-72">
                 <img
-                  src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80"
                   alt="Office Location"
                   className="w-full h-full object-cover"
                 />

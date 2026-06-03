@@ -27,7 +27,7 @@ function Tracking() {
       <section className="relative bg-black py-32 overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1400&q=80"
             alt="Tracking"
             className="w-full h-full object-cover opacity-10"
           />
@@ -161,7 +161,7 @@ function Tracking() {
               {/* Map placeholder */}
               <div className="relative rounded-3xl overflow-hidden border border-yellow-500/10 h-64">
                 <img
-                  src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=900&q=80"
+                  src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=900&q=80"
                   alt="Map"
                   className="w-full h-full object-cover"
                 />

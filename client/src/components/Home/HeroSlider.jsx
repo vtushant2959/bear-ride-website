@@ -15,7 +15,7 @@ const SLIDES = [
     btn: "Book Ride Now",
     btnPath: "/booking",
     icon: <FaMotorcycle />,
-    img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80",
+    img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1400&q=80",
     badge: "Most Booked",
   },
   {
@@ -25,7 +25,7 @@ const SLIDES = [
     btn: "Explore Enterprise",
     btnPath: "/enterprise",
     icon: <FaBuilding />,
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1400&q=80",
+    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80",
     badge: "B2B Ready",
   },
   {
@@ -35,7 +35,7 @@ const SLIDES = [
     btn: "Send a Parcel",
     btnPath: "/parcel",
     icon: <FaBox />,
-    img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1400&q=80",
+    img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1400&q=80",
     badge: "Same Day",
   },
   {
@@ -45,7 +45,7 @@ const SLIDES = [
     btn: "Book Truck",
     btnPath: "/truck-booking",
     icon: <FaTruck />,
-    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1400&q=80",
+    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1400&q=80",
     badge: "Business",
   },
 ];

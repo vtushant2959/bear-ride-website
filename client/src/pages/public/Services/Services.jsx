@@ -15,7 +15,7 @@ const SERVICES = [
   {
     title: "Bike Taxi",
     icon: <FaMotorcycle size={32} />,
-    img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?auto=format&fit=crop&w=700&q=80",
     path: "/booking",
     color: "from-yellow-400 to-yellow-600",
     description: "Affordable and fast bike rides for quick urban transportation through busy city streets.",
@@ -26,7 +26,7 @@ const SERVICES = [
   {
     title: "Cab Booking",
     icon: <FaCar size={32} />,
-    img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=700&q=80",
     path: "/booking",
     color: "from-blue-500 to-blue-700",
     description: "Comfortable and premium AC cab services for daily commuting and long-distance travel.",
@@ -37,7 +37,7 @@ const SERVICES = [
   {
     title: "Parcel Delivery",
     icon: <FaBox size={32} />,
-    img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=700&q=80",
     path: "/parcel",
     color: "from-green-500 to-green-700",
     description: "Fast and secure parcel delivery across India with real-time tracking updates.",
@@ -48,7 +48,7 @@ const SERVICES = [
   {
     title: "Truck Booking",
     icon: <FaTruck size={32} />,
-    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=700&q=80",
     path: "/truck-booking",
     color: "from-orange-500 to-orange-700",
     description: "Commercial transportation and truck logistics for businesses and warehouse operations.",
@@ -59,7 +59,7 @@ const SERVICES = [
   {
     title: "Hotel Booking",
     icon: <FaHotel size={32} />,
-    img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=700&q=80",
     path: "/hotels",
     color: "from-pink-500 to-pink-700",
     description: "Discover luxury hotels, business stays and budget-friendly accommodations across India.",
@@ -70,7 +70,7 @@ const SERVICES = [
   {
     title: "Luxury Villas",
     icon: <FaHome size={32} />,
-    img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=700&q=80",
     path: "/villas",
     color: "from-purple-500 to-purple-700",
     description: "Premium villas, holiday homes and luxury stays in the most scenic locations.",
@@ -81,7 +81,7 @@ const SERVICES = [
   {
     title: "Airport Lounge",
     icon: <FaPlane size={32} />,
-    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=700&q=80",
     path: "/lounge",
     color: "from-cyan-500 to-cyan-700",
     description: "Premium airport lounge access at 45+ airports across India with complimentary amenities.",
@@ -92,7 +92,7 @@ const SERVICES = [
   {
     title: "Packers & Movers",
     icon: <FaPeopleCarry size={32} />,
-    img: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?auto=format&fit=crop&w=700&q=80",
     path: "/house-shifting",
     color: "from-red-500 to-red-700",
     description: "Professional relocation and house shifting services across cities with safe packaging.",
@@ -103,7 +103,7 @@ const SERVICES = [
   {
     title: "Enterprise Fleet",
     icon: <FaBuilding size={32} />,
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80",
+    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
     path: "/enterprise",
     color: "from-emerald-500 to-emerald-700",
     description: "Advanced enterprise fleet and logistics management solutions for large organisations.",
@@ -122,7 +122,7 @@ function Services() {
       <section className="relative min-h-[70vh] bg-black overflow-hidden flex items-center">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1400&q=80"
             alt="Services"
             className="w-full h-full object-cover opacity-15"
           />
@@ -273,7 +273,7 @@ function Services() {
             <div className="relative">
               <div className="rounded-[40px] overflow-hidden border border-yellow-500/20">
                 <img
-                  src="https://images.unsplash.com/photo-1556742400-b5b7b99c2e02?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=formatphoto-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=800&q=80fit=cropphoto-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=800&q=80w=800photo-1556742400-b5b7b99c2e02?auto=format&fit=crop&w=800&q=80q=80"
                   alt="Quality Service"
                   className="w-full h-[500px] object-cover"
                 />

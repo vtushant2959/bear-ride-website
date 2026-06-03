@@ -38,7 +38,7 @@ function BookingMap({ pickup, drop }) {
       <div className="h-[420px] bg-zinc-900 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=80"
+            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80"
             alt="Map"
             className="w-full h-full object-cover opacity-20"
           />

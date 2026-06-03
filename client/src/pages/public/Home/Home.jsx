@@ -12,6 +12,7 @@ import {
   FaMotorcycle, FaTruck, FaMapMarkedAlt, FaBuilding, FaArrowRight,
   FaStar, FaUsers, FaShieldAlt, FaClock, FaBox, FaHotel, FaHome as FaHomeIcon,
   FaPlane, FaRoad, FaCheckCircle, FaMobileAlt, FaBolt, FaHeadset,
+  FaApple, FaGooglePlay,
 } from "react-icons/fa";
 
 /* ─── Animated counter hook ─── */
@@ -53,14 +54,14 @@ function CounterCard({ value, suffix, label, color }) {
 
 /* ─── Service images from Unsplash ─── */
 const SERVICES = [
-  { title: "Bike Taxi",        icon: <FaMotorcycle size={26}/>, img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=600&q=80",       path: "/booking",        badge: "Most Popular" },
-  { title: "Cab Booking",      icon: <FaRoad size={26}/>,       img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=600&q=80",       path: "/booking",        badge: "Premium" },
-  { title: "Parcel Delivery",  icon: <FaBox size={26}/>,        img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&q=80",       path: "/parcel",         badge: "Same Day" },
-  { title: "Truck Logistics",  icon: <FaTruck size={26}/>,      img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80",       path: "/truck-booking",  badge: "Business" },
-  { title: "Hotel Booking",    icon: <FaHotel size={26}/>,      img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",       path: "/hotels",         badge: "Luxury" },
-  { title: "Luxury Villas",    icon: <FaHomeIcon size={26}/>,   img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80",       path: "/villas",         badge: "Premium" },
-  { title: "Airport Lounge",   icon: <FaPlane size={26}/>,      img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80",       path: "/lounge",         badge: "Comfort" },
-  { title: "Enterprise Fleet", icon: <FaBuilding size={26}/>,   img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",       path: "/enterprise",     badge: "B2B" },
+  { title: "Bike Taxi",        icon: <FaMotorcycle size={26}/>, img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?auto=format&fit=crop&w=600&q=80",  path: "/booking",       badge: "Most Popular" },
+  { title: "Cab Booking",      icon: <FaRoad size={26}/>,       img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80",  path: "/booking",       badge: "Premium" },
+  { title: "Parcel Delivery",  icon: <FaBox size={26}/>,        img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=600&q=80",  path: "/parcel",        badge: "Same Day" },
+  { title: "Truck Logistics",  icon: <FaTruck size={26}/>,      img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=600&q=80",  path: "/truck-booking", badge: "Business" },
+  { title: "Hotel Booking",    icon: <FaHotel size={26}/>,      img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",  path: "/hotels",        badge: "Luxury" },
+  { title: "Luxury Villas",    icon: <FaHomeIcon size={26}/>,   img: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80",  path: "/villas",        badge: "Premium" },
+  { title: "Airport Lounge",   icon: <FaPlane size={26}/>,      img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",  path: "/lounge",        badge: "Comfort" },
+  { title: "Enterprise Fleet", icon: <FaBuilding size={26}/>,   img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80",  path: "/enterprise",    badge: "B2B" },
 ];
 
 /* ─── Testimonials ─── */
@@ -77,9 +78,9 @@ const TESTIMONIALS = [
 const CITIES = ["Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Pune","Kolkata","Ahmedabad","Jaipur","Chandigarh","Lucknow","Surat","Nagpur","Indore","Bhopal","Visakhapatnam","Coimbatore","Vadodara","Kochi","Guwahati"];
 
 const HOW_IT_WORKS = [
-  { step: "01", icon: <FaMobileAlt className="text-4xl text-yellow-400"/>, title: "Download & Register", desc: "Create your BearRide account in under 60 seconds using your phone number. Choose your role — Customer, Driver, or Vendor.", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80" },
-  { step: "02", icon: <FaMapMarkedAlt className="text-4xl text-yellow-400"/>, title: "Choose Your Service", desc: "Pick from Bike, Auto, Cab, Parcel, Truck, Hotels, Villas, Lounge, House Shifting, or Enterprise Fleet.", img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&q=80" },
-  { step: "03", icon: <FaBolt className="text-4xl text-yellow-400"/>, title: "Book Instantly", desc: "Set your pickup & destination. Get real-time fare estimates, choose your ride type, and confirm in one tap.", img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=500&q=80" },
+  { step: "01", icon: <FaMobileAlt className="text-4xl text-yellow-400"/>, title: "Download & Register", desc: "Create your BearRide account in under 60 seconds using your phone number. Choose your role — Customer, Driver, or Vendor.", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=500&q=80" },
+  { step: "02", icon: <FaMapMarkedAlt className="text-4xl text-yellow-400"/>, title: "Choose Your Service", desc: "Pick from Bike, Auto, Cab, Parcel, Truck, Hotels, Villas, Lounge, House Shifting, or Enterprise Fleet.", img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=500&q=80" },
+  { step: "03", icon: <FaBolt className="text-4xl text-yellow-400"/>, title: "Book Instantly", desc: "Set your pickup & destination. Get real-time fare estimates, choose your ride type, and confirm in one tap.", img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=500&q=80" },
 ];
 
 function Home() {
@@ -141,7 +142,7 @@ function Home() {
               {/* Main image */}
               <div className="relative rounded-[40px] overflow-hidden border border-yellow-500/20 shadow-[0_0_80px_rgba(250,204,21,0.1)]">
                 <img
-                  src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=900&q=90"
+                  src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=900&q=90"
                   alt="BearRide Mobility"
                   className="w-full h-[500px] object-cover"
                 />
@@ -362,7 +363,7 @@ function Home() {
                 eta: "~2 min arrival",
                 badge: "Most Popular",
                 badgeColor: "bg-yellow-400 text-black",
-                img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=700&q=90",
+                img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?auto=format&fit=crop&w=700&q=90",
                 features: ["Beat traffic", "Instant pickup", "Eco-friendly"],
                 borderColor: "hover:border-yellow-400",
               },
@@ -375,7 +376,7 @@ function Home() {
                 eta: "~4 min arrival",
                 badge: "Best Value",
                 badgeColor: "bg-green-400 text-black",
-                img: "https://images.unsplash.com/photo-1603189343302-e603f7add05a?w=700&q=90",
+                img: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=700&q=90",
                 features: ["3-seat comfort", "Open air rides", "City travel"],
                 borderColor: "hover:border-green-400",
               },
@@ -388,7 +389,7 @@ function Home() {
                 eta: "~6 min arrival",
                 badge: "Premium",
                 badgeColor: "bg-blue-400 text-white",
-                img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?w=700&q=90",
+                img: "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=700&q=90",
                 features: ["Full AC cabin", "4 passengers", "Business rides"],
                 borderColor: "hover:border-blue-400",
               },
@@ -478,7 +479,7 @@ function Home() {
             <div className="relative">
               <div className="rounded-[40px] overflow-hidden border border-yellow-500/20 shadow-[0_0_80px_rgba(250,204,21,0.08)]">
                 <img
-                  src="https://images.unsplash.com/photo-1556742400-b5b7b99c2e02?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
                   alt="Why BearRide"
                   className="w-full h-[550px] object-cover"
                 />
@@ -627,7 +628,7 @@ function Home() {
             <div className="relative">
               <div className="rounded-[40px] overflow-hidden border border-yellow-500/20">
                 <img
-                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
                   alt="Enterprise Logistics"
                   className="w-full h-[500px] object-cover"
                 />
@@ -671,18 +672,18 @@ function Home() {
                   all from the palm of your hand.
                 </p>
                 <div className="flex flex-wrap gap-5">
-                  <button className="flex items-center gap-4 bg-white text-black px-7 py-4 rounded-2xl font-bold hover:scale-105 transition-all">
-                    <span className="text-3xl">🍎</span>
+                  <button className="flex items-center gap-4 bg-white text-black px-7 py-4 rounded-2xl font-bold hover:scale-105 transition-all shadow-lg">
+                    <FaApple className="text-3xl text-black" />
                     <div className="text-left">
                       <p className="text-xs text-gray-500">Download on</p>
-                      <p className="font-black">App Store</p>
+                      <p className="font-black text-base">App Store</p>
                     </div>
                   </button>
-                  <button className="flex items-center gap-4 bg-white text-black px-7 py-4 rounded-2xl font-bold hover:scale-105 transition-all">
-                    <span className="text-3xl">▶</span>
+                  <button className="flex items-center gap-4 bg-white text-black px-7 py-4 rounded-2xl font-bold hover:scale-105 transition-all shadow-lg">
+                    <FaGooglePlay className="text-3xl text-green-600" />
                     <div className="text-left">
                       <p className="text-xs text-gray-500">Get it on</p>
-                      <p className="font-black">Google Play</p>
+                      <p className="font-black text-base">Google Play</p>
                     </div>
                   </button>
                 </div>
@@ -706,7 +707,7 @@ function Home() {
               <div className="flex justify-center">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80"
+                    src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=500&q=80"
                     alt="BearRide App"
                     className="w-72 rounded-[40px] border-4 border-yellow-400/20 shadow-[0_0_80px_rgba(250,204,21,0.15)]"
                   />
@@ -746,9 +747,9 @@ function Home() {
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
             {[
-              { title: "Future of Smart Deliveries in India",         cat: "Logistics",  img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",  mins: 5 },
-              { title: "Why Bike Taxi Services Are Growing Rapidly",  cat: "Mobility",   img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=600&q=80",   mins: 4 },
-              { title: "Enterprise Fleet Management Revolution",      cat: "Enterprise", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80", mins: 6 },
+              { title: "Future of Smart Deliveries in India",         cat: "Logistics",  img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",  mins: 5 },
+              { title: "Why Bike Taxi Services Are Growing Rapidly",  cat: "Mobility",   img: "https://images.unsplash.com/photo-1558981852-426c6c22a060?auto=format&fit=crop&w=600&q=80",   mins: 4 },
+              { title: "Enterprise Fleet Management Revolution",      cat: "Enterprise", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80", mins: 6 },
             ].map((post, i) => (
               <ScaleUp key={i}>
                 <div className="bg-black rounded-3xl overflow-hidden border border-yellow-500/10 hover:border-yellow-400 hover:-translate-y-3 hover:shadow-[0_0_50px_rgba(250,204,21,0.12)] transition-all duration-400 group">
@@ -782,7 +783,7 @@ function Home() {
       <section className="section-padding bg-black relative overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1400&q=80"
+            src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1400&q=80"
             alt="India City"
             className="w-full h-full object-cover opacity-10"
           />
