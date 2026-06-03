@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================
+   MARQUEE ANIMATION
+================================ */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ================================
+   COUNTER PULSE
+================================ */
+@keyframes countGlow {
+  0%, 100% { text-shadow: 0 0 20px rgba(250,204,21,0.4); }
+  50%       { text-shadow: 0 0 60px rgba(250,204,21,0.9); }
+}
+.count-glow { animation: countGlow 2.5s ease-in-out infinite; }
+
+/* ================================
+   CARD SHINE SWEEP
+================================ */
+@keyframes shine {
+  0%   { left: -75%; }
+  100% { left: 125%; }
+}
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+.card-shine::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+  transform: skewX(-20deg);
+  animation: shine 3.5s ease-in-out infinite;
+}
+
+/* ================================
+   BADGE PULSE DOT
+================================ */
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(250,204,21,0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(250,204,21,0); }
+}
+.badge-pulse { animation: badgePulse 2s ease-in-out infinite; }
+
+/* ================================
+   STEP LINE DRAW
+================================ */
+@keyframes drawLine {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ================================
+   GRADIENT BORDER SPIN
+================================ */
+@keyframes borderSpin {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* GLOBAL RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* BODY */
+
+body {
+  font-family: Inter, sans-serif;
+  background: #000;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #facc15;
+  border-radius: 20px;
+}
+
+/* GLOBAL CONTAINER */
+
+.container-main {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* SECTION SPACING */
+
+.section-padding {
+  padding: 100px 20px;
+}
+
+/* GRADIENT TEXT */
+
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    #facc15,
+    #fff176
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* GLOW EFFECT */
+
+.glow-yellow {
+  box-shadow:
+    0 0 20px rgba(250, 204, 21, 0.3),
+    0 0 60px rgba(250, 204, 21, 0.15);
+}
+
+/* GLASS EFFECT */
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+/* SWIPER GLOBAL */
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+/* SWIPER BUTTONS */
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000 !important;
+
+  transform: scale(0.75);
+
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease;
+
+  opacity: 0.8;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  transform: scale(0.95);
+  opacity: 1;
+}
+
+/* SWIPER PAGINATION */
+
+.swiper-pagination {
+  bottom: 20px !important;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+
+  background: #000 !important;
+
+  opacity: 0.4;
+
+  border-radius: 20px;
+
+  transition: all 0.4s ease;
+}
+
+.swiper-pagination-bullet-active {
+  width: 40px;
+
+  opacity: 1;
+}
+
+/* HERO SWIPER */
+
+.hero-swiper .swiper-pagination {
+  bottom: 25px !important;
+}
+
+/* FLOAT ANIMATION */
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* SLOW IMAGE ZOOM */
+
+@keyframes slowZoom {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* IMAGE HOVER */
+
+.image-hover {
+  transition:
+    transform 0.8s ease,
+    filter 0.8s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+/* SMOOTH CARD HOVER */
+
+.card-hover {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+
+  box-shadow:
+    0 0 30px rgba(250, 204, 21, 0.1);
+
+  border-color: rgba(250, 204, 21, 0.4);
+}
+
+/* BUTTON ANIMATION */
+
+.button-hover {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.button-hover:hover {
+  transform: scale(1.05);
+}
+
+/* RESPONSIVE TYPOGRAPHY */
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 70px 16px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}

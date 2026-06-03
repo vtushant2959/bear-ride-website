@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  fullName         String
+  phone            String    @unique
+  email            String?
+  password         String?
+  role             String    @default("CUSTOMER")
+  isVerified       Boolean   @default(false)
+  firebaseUid      String?   @unique
+  vehicleType      String?
+  vehicleNumber    String?
+  licenseNumber    String?
+  businessName     String?
+  businessType     String?
+  walletBalance    Float     @default(0)
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  customerBookings Booking[] @relation("CustomerBookings")
+  driverBookings   Booking[] @relation("DriverBookings")
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  customerId  Int
+  driverId    Int?
+  pickup      String
+  destination String
+  rideType    String
+  fare        Float
+  distance    String?
+  duration    String?
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  customer    User     @relation("CustomerBookings", fields: [customerId], references: [id])
+  driver      User?    @relation("DriverBookings", fields: [driverId], references: [id])
+}
