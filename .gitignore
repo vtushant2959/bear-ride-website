@@ -42,3 +42,5 @@ server/node_modules/
 # Cache
 .cache/
 *.tsbuildinfo
+
+.vercel
