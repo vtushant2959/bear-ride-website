@@ -54,9 +54,13 @@ function DashboardNavbar() {
           <button className="relative text-gray-400 hover:text-yellow-400 transition-all text-xl">
             <FaBell />
           </button>
-          <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-black font-black text-lg">
-            {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
-          </div>
+          {user?.profilePhoto ? (
+            <img src={user.profilePhoto} alt={user.fullName} className="w-10 h-10 rounded-full object-cover border-2 border-yellow-400" />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-black font-black text-lg">
+              {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+            </div>
+          )}
         </div>
       </div>
 

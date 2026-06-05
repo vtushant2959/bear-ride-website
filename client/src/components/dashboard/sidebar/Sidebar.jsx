@@ -64,10 +64,18 @@ function Sidebar() {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-zinc-950 border border-yellow-500/10 rounded-2xl p-4">
-          <p className="text-sm text-gray-400">Logged in as</p>
-          <p className="font-bold text-yellow-400 truncate">{user?.fullName || "User"}</p>
-          <p className="text-xs text-gray-500">{user?.phone}</p>
+        <div className="bg-zinc-950 border border-yellow-500/10 rounded-2xl p-4 flex items-center gap-3">
+          {user?.profilePhoto ? (
+            <img src={user.profilePhoto} alt={user.fullName} className="w-11 h-11 rounded-full object-cover border-2 border-yellow-400 flex-shrink-0" />
+          ) : (
+            <div className="w-11 h-11 rounded-full bg-yellow-400 flex items-center justify-center text-black font-black flex-shrink-0">
+              {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+            </div>
+          )}
+          <div className="min-w-0">
+            <p className="font-bold text-yellow-400 truncate text-sm">{user?.fullName || "User"}</p>
+            <p className="text-xs text-gray-500 capitalize">{user?.role?.toLowerCase()}</p>
+          </div>
         </div>
 
         <button

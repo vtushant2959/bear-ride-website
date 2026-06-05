@@ -125,9 +125,19 @@ function DriverDashboard() {
           </div>
         )}
 
-        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10">
-          <h1 className="text-5xl font-black mb-3">Welcome, {user?.fullName?.split(" ")[0]}</h1>
-          <p className="text-gray-300 text-lg">Manage your rides, earnings and accept new bookings.</p>
+        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10 flex items-center gap-6">
+          {user?.profilePhoto ? (
+            <img src={user.profilePhoto} alt={user.fullName} className="w-20 h-20 rounded-2xl object-cover border-2 border-yellow-400 flex-shrink-0" />
+          ) : (
+            <div className="w-20 h-20 rounded-2xl bg-yellow-400 flex items-center justify-center text-black font-black text-3xl flex-shrink-0">
+              {user?.fullName?.charAt(0)?.toUpperCase() || "D"}
+            </div>
+          )}
+          <div>
+            <h1 className="text-4xl font-black mb-1">Welcome, {user?.fullName?.split(" ")[0]}</h1>
+            {user?.vehicleNumber && <p className="text-yellow-400 font-bold text-sm">{user.vehicleType} · {user.vehicleNumber}</p>}
+            <p className="text-gray-300 text-sm mt-1">Manage rides, earnings and accept new bookings.</p>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">

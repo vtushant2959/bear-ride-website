@@ -1,4 +1,72 @@
 const prisma = require("../config/prisma");
+const cloudinary = require("../config/cloudinary");
+
+const uploadToCloudinary = (buffer, folder, filename) =>
+  new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: `bearride/${folder}`, public_id: filename, resource_type: "image",
+        transformation: [{ quality: "auto", fetch_format: "auto" }] },
+      (err, result) => { if (err) reject(err); else resolve(result.secure_url); }
+    );
+    stream.end(buffer);
+  });
+
+exports.completeRegistration = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const role   = req.user.role;
+    const tag    = `user_${userId}_${Date.now()}`;
+    const data   = {};
+
+    // Profile photo — required for all roles
+    if (req.files?.profilePhoto?.[0]) {
+      data.profilePhoto = await uploadToCloudinary(
+        req.files.profilePhoto[0].buffer, "profile_photos", `profile_${tag}`
+      );
+    }
+
+    if (role === "DRIVER") {
+      const { vehicleType, vehicleNumber, licenseNumber } = req.body;
+      if (vehicleType)    data.vehicleType    = vehicleType;
+      if (vehicleNumber)  data.vehicleNumber  = vehicleNumber.toUpperCase().replace(/\s/g, "");
+      if (licenseNumber)  data.licenseNumber  = licenseNumber;
+      if (req.files?.vehicleRC?.[0]) {
+        data.vehicleRC = await uploadToCloudinary(
+          req.files.vehicleRC[0].buffer, "vehicle_rc", `rc_${tag}`
+        );
+      }
+      // Mark pending only when both vehicle number and RC are provided
+      if (data.vehicleNumber && data.vehicleRC) {
+        data.driverStatus = "PENDING";
+      }
+    }
+
+    if (role === "VENDOR") {
+      const { businessName, gstNumber, address } = req.body;
+      if (businessName) data.businessName = businessName;
+      if (gstNumber)    data.gstNumber    = gstNumber;
+      if (address)      data.address      = address;
+    }
+
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true, fullName: true, phone: true, email: true, role: true,
+        isVerified: true, walletBalance: true, profilePhoto: true,
+        vehicleType: true, vehicleNumber: true, licenseNumber: true,
+        vehicleRC: true, driverStatus: true,
+        businessName: true, businessType: true, address: true, gstNumber: true,
+        isActive: true, createdAt: true,
+      },
+    });
+
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("COMPLETE REGISTRATION ERROR:", error);
+    return res.status(500).json({ success: false, message: "Registration completion failed" });
+  }
+};
 
 exports.updateProfile = async (req, res) => {
   try {

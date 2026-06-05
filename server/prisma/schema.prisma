@@ -16,16 +16,18 @@ model User {
   role             String    @default("CUSTOMER")
   isVerified       Boolean   @default(false)
   firebaseUid      String?   @unique
+  profilePhoto     String?
   vehicleType      String?
   vehicleNumber    String?
   licenseNumber    String?
   vehiclePhoto     String?
   licensePhoto     String?
-  ownPhoto         String?
   vehicleRC        String?
   driverStatus     String    @default("INCOMPLETE")
   businessName     String?
   businessType     String?
+  address          String?
+  gstNumber        String?
   walletBalance    Float     @default(0)
   isActive         Boolean   @default(true)
   createdAt        DateTime  @default(now())

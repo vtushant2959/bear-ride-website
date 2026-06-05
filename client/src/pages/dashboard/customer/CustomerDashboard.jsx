@@ -52,13 +52,18 @@ function CustomerDashboard() {
   return (
     <DashboardLayout>
       <div>
-        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10">
-          <h1 className="text-5xl font-black mb-4">
-            Welcome Back, {user?.fullName?.split(" ")[0] || "User"}
-          </h1>
-          <p className="text-gray-300 text-lg">
-            Manage rides, deliveries, bookings, wallet and payments from one dashboard.
-          </p>
+        <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10 flex items-center gap-6">
+          {user?.profilePhoto ? (
+            <img src={user.profilePhoto} alt={user.fullName} className="w-20 h-20 rounded-2xl object-cover border-2 border-yellow-400 flex-shrink-0" />
+          ) : (
+            <div className="w-20 h-20 rounded-2xl bg-yellow-400 flex items-center justify-center text-black font-black text-3xl flex-shrink-0">
+              {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+            </div>
+          )}
+          <div>
+            <h1 className="text-4xl font-black mb-1">Welcome Back, {user?.fullName?.split(" ")[0] || "User"}</h1>
+            <p className="text-gray-300 text-sm">Manage rides, deliveries, bookings, wallet and payments.</p>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
