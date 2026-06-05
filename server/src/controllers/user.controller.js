@@ -2,7 +2,7 @@ const prisma = require("../config/prisma");
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { fullName, email, vehicleType, vehicleNumber, licenseNumber, businessName, businessType } = req.body;
+    const { fullName, email, vehicleType, vehicleNumber, licenseNumber, businessName, businessType, driverStatus } = req.body;
 
     const data = {};
     if (fullName) data.fullName = fullName;
@@ -27,6 +27,11 @@ exports.updateProfile = async (req, res) => {
         vehicleType: true,
         vehicleNumber: true,
         licenseNumber: true,
+        ownPhoto: true,
+        vehiclePhoto: true,
+        licensePhoto: true,
+        vehicleRC: true,
+        driverStatus: true,
         businessName: true,
         businessType: true,
         isActive: true,

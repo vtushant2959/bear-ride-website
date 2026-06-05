@@ -19,6 +19,11 @@ model User {
   vehicleType      String?
   vehicleNumber    String?
   licenseNumber    String?
+  vehiclePhoto     String?
+  licensePhoto     String?
+  ownPhoto         String?
+  vehicleRC        String?
+  driverStatus     String    @default("INCOMPLETE")
   businessName     String?
   businessType     String?
   walletBalance    Float     @default(0)

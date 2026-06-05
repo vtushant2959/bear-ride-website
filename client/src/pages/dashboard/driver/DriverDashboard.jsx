@@ -5,10 +5,11 @@ import StatCard from "../../../components/dashboard/card/StatCard";
 import { getDashboardStats } from "../../../services/userService";
 import { getDriverBookings, getPendingBookings, acceptBooking, startRide, completeRide } from "../../../services/bookingService";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import {
   FaCar, FaCheckCircle, FaClock, FaWallet,
   FaMapMarkerAlt, FaPhoneAlt, FaPlay, FaFlagCheckered,
-  FaHandPaper, FaSyncAlt,
+  FaHandPaper, FaSyncAlt, FaExclamationTriangle, FaArrowRight,
 } from "react-icons/fa";
 
 function DriverDashboard() {
@@ -76,6 +77,54 @@ function DriverDashboard() {
   return (
     <DashboardLayout>
       <div>
+        {/* Driver status banner */}
+        {user?.driverStatus === "INCOMPLETE" && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 mb-6 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3 text-red-400">
+              <FaExclamationTriangle className="text-xl flex-shrink-0" />
+              <div>
+                <p className="font-bold">Documents Required</p>
+                <p className="text-sm text-red-300/70">Upload your vehicle and license documents to start accepting rides.</p>
+              </div>
+            </div>
+            <Link to="/driver-onboarding" className="flex items-center gap-2 bg-red-500 text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-red-400 transition-all flex-shrink-0">
+              Complete Now <FaArrowRight />
+            </Link>
+          </div>
+        )}
+
+        {user?.driverStatus === "PENDING" && (
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5 mb-6 flex items-center gap-3">
+            <FaClock className="text-yellow-400 text-xl flex-shrink-0" />
+            <div>
+              <p className="text-yellow-400 font-bold">Verification in Progress</p>
+              <p className="text-sm text-gray-400">Your documents are under review. You'll be notified within 24 hours.</p>
+            </div>
+          </div>
+        )}
+
+        {user?.driverStatus === "APPROVED" && (
+          <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4 mb-6 flex items-center gap-3">
+            <FaCheckCircle className="text-green-400 text-xl" />
+            <p className="text-green-400 font-semibold text-sm">Account Verified — You're ready to accept rides!</p>
+          </div>
+        )}
+
+        {user?.driverStatus === "REJECTED" && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-5 mb-6 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-3 text-red-400">
+              <FaExclamationTriangle className="text-xl flex-shrink-0" />
+              <div>
+                <p className="font-bold">Verification Rejected</p>
+                <p className="text-sm text-red-300/70">Your documents were rejected. Please re-upload with clear, valid documents.</p>
+              </div>
+            </div>
+            <Link to="/driver-onboarding" className="flex items-center gap-2 bg-red-500 text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-red-400 transition-all flex-shrink-0">
+              Re-submit <FaArrowRight />
+            </Link>
+          </div>
+        )}
+
         <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10">
           <h1 className="text-5xl font-black mb-3">Welcome, {user?.fullName?.split(" ")[0]}</h1>
           <p className="text-gray-300 text-lg">Manage your rides, earnings and accept new bookings.</p>

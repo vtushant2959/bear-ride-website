@@ -14,6 +14,7 @@ import Login from "../pages/auth/Login/Login";
 import OTP from "../pages/auth/OTP/OTP";
 import ForgotPassword from "../pages/auth/ForgotPassword/ForgotPassword";
 import Register from "../pages/auth/Register/Register";
+import DriverOnboarding from "../pages/auth/DriverOnboarding/DriverOnboarding";
 
 /* CUSTOMER DASHBOARD */
 import CustomerDashboard from "../pages/dashboard/customer/CustomerDashboard";
@@ -78,6 +79,7 @@ function AppRoutes() {
       <Route path="/otp" element={<OTP />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/driver-onboarding" element={<ProtectedRoutes><RoleProtectedRoute allowedRole="DRIVER"><DriverOnboarding /></RoleProtectedRoute></ProtectedRoutes>} />
 
       {/* ================= BOOKING ================= */}
       <Route path="/booking" element={<ProtectedRoutes><Booking /></ProtectedRoutes>} />

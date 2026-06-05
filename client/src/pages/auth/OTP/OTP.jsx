@@ -21,8 +21,8 @@ function OTP() {
   /* ─────────────────────────────────────────
      Derive role redirect helper
   ───────────────────────────────────────── */
-  const redirectByRole = (role) => {
-    if (role === "DRIVER")  return navigate("/dashboard/driver");
+  const redirectByRole = (role, isNew = false) => {
+    if (role === "DRIVER")  return navigate(isNew ? "/driver-onboarding" : "/dashboard/driver");
     if (role === "VENDOR")  return navigate("/dashboard/vendor");
     if (role === "ADMIN")   return navigate("/admin");
     return navigate("/dashboard/customer");
@@ -72,7 +72,7 @@ function OTP() {
         if (response.data?.success) {
           login(response.data.user, response.data.token);
           toast.success(isRegister ? "🎉 Account created! Welcome to BearRide" : "✅ Login successful!");
-          redirectByRole(response.data.user.role);
+          redirectByRole(response.data.user.role, isRegister);
           return;
         }
       } catch (backendErr) {
@@ -97,7 +97,7 @@ function OTP() {
 
       login(localUser, firebaseToken);
       toast.success(isRegister ? "🎉 Account created! Welcome to BearRide" : "✅ Login successful!");
-      redirectByRole(localUser.role);
+      redirectByRole(localUser.role, isRegister);
 
     } catch (error) {
       console.error("OTP verification error:", error);
