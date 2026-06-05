@@ -198,6 +198,52 @@ exports.getAdminStats = async (req, res) => {
   }
 };
 
+exports.approveDriver = async (req, res) => {
+  try {
+    const userId = Number(req.params.id);
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { driverStatus: "APPROVED", isActive: true },
+      select: { id: true, fullName: true, phone: true, driverStatus: true },
+    });
+    return res.json({ success: true, user, message: "Driver approved" });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Failed to approve driver" });
+  }
+};
+
+exports.rejectDriver = async (req, res) => {
+  try {
+    const userId = Number(req.params.id);
+    const { reason } = req.body;
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { driverStatus: "REJECTED" },
+      select: { id: true, fullName: true, phone: true, driverStatus: true },
+    });
+    return res.json({ success: true, user, message: "Driver rejected" });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Failed to reject driver" });
+  }
+};
+
+exports.getPendingDrivers = async (req, res) => {
+  try {
+    const drivers = await prisma.user.findMany({
+      where: { driverStatus: "PENDING" },
+      select: {
+        id: true, fullName: true, phone: true, email: true,
+        vehicleType: true, vehicleNumber: true, licenseNumber: true,
+        profilePhoto: true, vehicleRC: true, driverStatus: true, createdAt: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return res.json({ success: true, drivers });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Failed to fetch pending drivers" });
+  }
+};
+
 exports.deleteUser = async (req, res) => {
   try {
     const userId = Number(req.params.id);

@@ -40,6 +40,16 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminBookings from "../pages/admin/AdminBookings";
 import AdminAccess from "../pages/admin/AdminAccess";
+import AdminDriverApproval from "../pages/admin/AdminDriverApproval";
+import AdminPromos from "../pages/admin/AdminPromos";
+
+/* CUSTOMER FEATURE PAGES */
+import WalletPage from "../pages/dashboard/customer/WalletPage";
+import SavedAddresses from "../pages/dashboard/customer/SavedAddresses";
+import ScheduleRide from "../pages/dashboard/customer/ScheduleRide";
+
+/* VENDOR FEATURE PAGES */
+import FleetManagement from "../pages/dashboard/vendor/FleetManagement";
 
 /* BOOKING */
 import Booking from "../pages/booking/Booking";
@@ -117,14 +127,24 @@ function AppRoutes() {
       {/* ================= VENDOR DASHBOARD ================= */}
       <Route path="/dashboard/vendor" element={<ProtectedRoutes><RoleProtectedRoute allowedRole="VENDOR"><VendorDashboard /></RoleProtectedRoute></ProtectedRoutes>} />
 
+      {/* ================= CUSTOMER FEATURE PAGES ================= */}
+      <Route path="/dashboard/customer/wallet"           element={<ProtectedRoutes><RoleProtectedRoute allowedRole="CUSTOMER"><WalletPage /></RoleProtectedRoute></ProtectedRoutes>} />
+      <Route path="/dashboard/customer/saved-addresses"  element={<ProtectedRoutes><RoleProtectedRoute allowedRole="CUSTOMER"><SavedAddresses /></RoleProtectedRoute></ProtectedRoutes>} />
+      <Route path="/dashboard/customer/schedule"         element={<ProtectedRoutes><RoleProtectedRoute allowedRole="CUSTOMER"><ScheduleRide /></RoleProtectedRoute></ProtectedRoutes>} />
+
+      {/* ================= VENDOR FEATURE PAGES ================= */}
+      <Route path="/dashboard/vendor/fleet"              element={<ProtectedRoutes><RoleProtectedRoute allowedRole="VENDOR"><FleetManagement /></RoleProtectedRoute></ProtectedRoutes>} />
+
       {/* ================= ADMIN ================= */}
       {/* Anyone can visit /admin/access — it's the passphrase gate */}
       <Route path="/admin/access" element={<AdminAccess />} />
 
       {/* All other admin routes require ADMIN role or admin bypass */}
       <Route path="/admin" element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminDashboard /></RoleProtectedRoute></ProtectedRoutes>} />
-      <Route path="/admin/users" element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminUsers /></RoleProtectedRoute></ProtectedRoutes>} />
+      <Route path="/admin/users"    element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminUsers /></RoleProtectedRoute></ProtectedRoutes>} />
       <Route path="/admin/bookings" element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminBookings /></RoleProtectedRoute></ProtectedRoutes>} />
+      <Route path="/admin/drivers"  element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminDriverApproval /></RoleProtectedRoute></ProtectedRoutes>} />
+      <Route path="/admin/promos"   element={<ProtectedRoutes><RoleProtectedRoute allowedRole="ADMIN"><AdminPromos /></RoleProtectedRoute></ProtectedRoutes>} />
 
       {/* ================= 404 ================= */}
       <Route path="*" element={<NotFound />} />

@@ -2,6 +2,7 @@ import {
   FaHome, FaCar, FaUser, FaWallet, FaCog, FaSignOutAlt,
   FaClipboardList, FaUsers, FaChartBar, FaMotorcycle,
   FaBuilding, FaBoxes, FaExchangeAlt, FaPlusCircle,
+  FaMapMarkerAlt, FaClock, FaTruck, FaTag, FaCheckCircle,
 } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import { useAuth } from "../../../context/AuthContext";
@@ -21,12 +22,14 @@ function Sidebar() {
   const roles = Array.isArray(user?.roles) ? user.roles : [user?.role || "CUSTOMER"];
 
   const customerMenu = [
-    { icon: <FaHome />,       title: "Dashboard",  path: "/dashboard/customer" },
-    { icon: <FaMotorcycle />, title: "Book Ride",  path: "/booking" },
-    { icon: <FaCar />,        title: "My Rides",   path: "/dashboard/customer/rides" },
-    { icon: <FaWallet />,     title: "Payments",   path: "/dashboard/customer/payments" },
-    { icon: <FaUser />,       title: "Profile",    path: "/dashboard/customer/profile" },
-    { icon: <FaCog />,        title: "Settings",   path: "/dashboard/customer/settings" },
+    { icon: <FaHome />,          title: "Dashboard",      path: "/dashboard/customer" },
+    { icon: <FaMotorcycle />,    title: "Book Ride",      path: "/booking" },
+    { icon: <FaCar />,           title: "My Rides",       path: "/dashboard/customer/rides" },
+    { icon: <FaClock />,         title: "Schedule Ride",  path: "/dashboard/customer/schedule" },
+    { icon: <FaWallet />,        title: "Wallet",         path: "/dashboard/customer/wallet" },
+    { icon: <FaMapMarkerAlt />,  title: "Saved Addresses",path: "/dashboard/customer/saved-addresses" },
+    { icon: <FaUser />,          title: "Profile",        path: "/dashboard/customer/profile" },
+    { icon: <FaCog />,           title: "Settings",       path: "/dashboard/customer/settings" },
   ];
 
   const driverMenu = [
@@ -38,19 +41,20 @@ function Sidebar() {
   ];
 
   const vendorMenu = [
-    { icon: <FaHome />,    title: "Dashboard", path: "/dashboard/vendor" },
-    { icon: <FaBoxes />,   title: "My Fleet",  path: "/dashboard/vendor/fleet" },
-    { icon: <FaCar />,     title: "Bookings",  path: "/dashboard/vendor/bookings" },
-    { icon: <FaChartBar />,title: "Analytics", path: "/dashboard/vendor/analytics" },
-    { icon: <FaUser />,    title: "Profile",   path: "/dashboard/vendor/profile" },
+    { icon: <FaHome />,     title: "Dashboard",  path: "/dashboard/vendor" },
+    { icon: <FaTruck />,    title: "Fleet",      path: "/dashboard/vendor/fleet" },
+    { icon: <FaCar />,      title: "Bookings",   path: "/dashboard/vendor/bookings" },
+    { icon: <FaChartBar />, title: "Analytics",  path: "/dashboard/vendor/analytics" },
+    { icon: <FaUser />,     title: "Profile",    path: "/dashboard/vendor/profile" },
   ];
 
   const adminMenu = [
-    { icon: <FaHome />,    title: "Dashboard", path: "/admin" },
-    { icon: <FaUsers />,   title: "Users",     path: "/admin" },
-    { icon: <FaCar />,     title: "Bookings",  path: "/admin" },
-    { icon: <FaChartBar />,title: "Analytics", path: "/admin" },
-    { icon: <FaCog />,     title: "Settings",  path: "/admin" },
+    { icon: <FaHome />,         title: "Dashboard",   path: "/admin" },
+    { icon: <FaUsers />,        title: "Users",       path: "/admin/users" },
+    { icon: <FaCar />,          title: "Bookings",    path: "/admin/bookings" },
+    { icon: <FaCheckCircle />,  title: "Driver Approvals", path: "/admin/drivers" },
+    { icon: <FaTag />,          title: "Promo Codes", path: "/admin/promos" },
+    { icon: <FaCog />,          title: "Settings",    path: "/admin" },
   ];
 
   let menu = customerMenu;

@@ -5,11 +5,12 @@ import StatCard from "../../../components/dashboard/card/StatCard";
 import QuickActionCard from "../../../components/dashboard/card/QuickActionCard";
 import { getDashboardStats } from "../../../services/userService";
 import { getCustomerBookings } from "../../../services/bookingService";
+import SOSButton from "../../../components/ui/SOSButton";
 import {
   FaCar, FaWallet, FaMapMarkerAlt, FaRoad,
   FaMotorcycle, FaMapMarkedAlt, FaTruck, FaHotel,
   FaHome, FaPlane, FaBoxes, FaBuilding,
-  FaBell, FaGift, FaShieldAlt, FaCheckCircle,
+  FaBell, FaGift, FaShieldAlt, FaCheckCircle, FaStar, FaCoins,
 } from "react-icons/fa";
 
 function CustomerDashboard() {
@@ -51,6 +52,7 @@ function CustomerDashboard() {
 
   return (
     <DashboardLayout>
+      <SOSButton />
       <div>
         <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-500/5 border border-yellow-500/10 rounded-3xl p-8 mb-10 flex items-center gap-6">
           {user?.profilePhoto ? (
@@ -67,10 +69,10 @@ function CustomerDashboard() {
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-          <StatCard title="Total Rides" value={stats?.total || 0} icon={<FaCar />} color="bg-yellow-400 text-black" />
-          <StatCard title="Active Rides" value={stats?.active || 0} icon={<FaRoad />} color="bg-green-500 text-white" />
-          <StatCard title="Wallet Balance" value={`₹${stats?.walletBalance || 0}`} icon={<FaWallet />} color="bg-blue-500 text-white" />
-          <StatCard title="Completed" value={stats?.completed || 0} icon={<FaCheckCircle />} color="bg-purple-500 text-white" />
+          <StatCard title="Total Rides"    value={stats?.total || 0}                          icon={<FaCar />}         color="bg-yellow-400 text-black" />
+          <StatCard title="Active Rides"   value={stats?.active || 0}                         icon={<FaRoad />}        color="bg-green-500 text-white" />
+          <StatCard title="Wallet Balance" value={`₹${stats?.walletBalance || 0}`}            icon={<FaWallet />}      color="bg-blue-500 text-white" />
+          <StatCard title="Loyalty Points" value={`${user?.loyaltyPoints || 0} pts`}          icon={<FaCoins />}       color="bg-purple-500 text-white" />
         </div>
 
         {activeRide && (

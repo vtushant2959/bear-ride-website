@@ -1,77 +1,124 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 import DashboardLayout from "../../../components/dashboard/layout/DashboardLayout";
-import { getDashboardStats } from "../../../services/userService";
 import { getDriverBookings } from "../../../services/bookingService";
-import StatCard from "../../../components/dashboard/card/StatCard";
-import { FaWallet, FaCheckCircle, FaCar, FaChartLine } from "react-icons/fa";
+import { getTransactions } from "../../../services/featureService";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from "recharts";
+import { FaWallet, FaStar, FaChartLine, FaCoins } from "react-icons/fa";
 
-function DriverEarnings() {
-  const [stats, setStats] = useState(null);
-  const [rides, setRides] = useState([]);
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-zinc-900 border border-yellow-500/20 rounded-xl px-3 py-2 text-sm">
+      <p className="text-gray-400">{label}</p>
+      <p className="text-yellow-400 font-bold">₹{payload[0]?.value}</p>
+    </div>
+  );
+};
+
+export default function DriverEarnings() {
+  const { user }  = useAuth();
+  const [bookings, setBookings] = useState([]);
+  const [txns,     setTxns]     = useState([]);
+  const [loading,  setLoading]  = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const [s, r] = await Promise.all([getDashboardStats(), getDriverBookings()]);
-        if (s.success) setStats(s.stats);
-        if (r.success) setRides(r.bookings.filter((b) => b.status === "COMPLETED"));
-      } catch (e) { console.error(e); }
-    };
-    load();
+    Promise.all([getDriverBookings(), getTransactions()])
+      .then(([b, t]) => { setBookings(b.bookings || []); setTxns(t.transactions || []); })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
+
+  const completed = bookings.filter((b) => b.status === "COMPLETED");
+
+  const weeklyData = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - (6 - i));
+    const earnings = completed
+      .filter((b) => new Date(b.updatedAt).toDateString() === d.toDateString())
+      .reduce((s, b) => s + (b.finalFare || b.fare) * 0.8, 0);
+    return { day: d.toLocaleDateString("en-IN", { weekday: "short" }), earnings: Math.round(earnings) };
+  });
+
+  const monthlyData = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(); d.setMonth(d.getMonth() - (5 - i));
+    const m = d.getMonth(); const y = d.getFullYear();
+    const earnings = completed
+      .filter((b) => { const bd = new Date(b.updatedAt); return bd.getMonth() === m && bd.getFullYear() === y; })
+      .reduce((s, b) => s + (b.finalFare || b.fare) * 0.8, 0);
+    return { month: d.toLocaleDateString("en-IN", { month: "short" }), earnings: Math.round(earnings) };
+  });
+
+  const totalEarnings = completed.reduce((s, b) => s + (b.finalFare || b.fare) * 0.8, 0);
+  const todayEarnings = completed
+    .filter((b) => new Date(b.updatedAt).toDateString() === new Date().toDateString())
+    .reduce((s, b) => s + (b.finalFare || b.fare) * 0.8, 0);
 
   return (
     <DashboardLayout>
       <div>
-        <div className="mb-10">
-          <h1 className="text-5xl font-black mb-3">Earnings</h1>
-          <p className="text-gray-400">Track your ride earnings and income summary.</p>
-        </div>
+        <h1 className="text-3xl font-black mb-8">Earnings & Analytics</h1>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
-          <StatCard title="Total Earnings" value={`₹${stats?.totalEarnings || 0}`} icon={<FaWallet />} color="bg-yellow-400 text-black" />
-          <StatCard title="Completed Rides" value={stats?.completed || 0} icon={<FaCheckCircle />} color="bg-green-500 text-white" />
-          <StatCard title="Total Rides" value={stats?.total || 0} icon={<FaCar />} color="bg-blue-500 text-white" />
-          <StatCard title="Avg per Ride" value={`₹${stats?.completed ? Math.round(stats.totalEarnings / stats.completed) : 0}`} icon={<FaChartLine />} color="bg-purple-500 text-white" />
-        </div>
-
-        <div className="bg-zinc-950 border border-yellow-500/10 rounded-3xl p-8 mb-10">
-          <h2 className="text-3xl font-black mb-2">Wallet Balance</h2>
-          <h3 className="text-6xl font-black text-yellow-400 mt-4">{`₹${stats?.walletBalance || 0}`}</h3>
-        </div>
-
-        {rides.length > 0 && (
-          <div className="bg-zinc-950 border border-yellow-500/10 rounded-3xl overflow-hidden">
-            <div className="p-6">
-              <h2 className="text-2xl font-black">Completed Rides</h2>
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+          {[
+            { label: "Wallet Balance",   value: `₹${(user?.walletBalance || 0).toFixed(0)}`, icon: <FaWallet />,    color: "bg-yellow-400 text-black" },
+            { label: "Total Earnings",   value: `₹${Math.round(totalEarnings)}`,              icon: <FaCoins />,     color: "bg-green-500 text-white" },
+            { label: "Today",            value: `₹${Math.round(todayEarnings)}`,              icon: <FaChartLine />, color: "bg-blue-500 text-white" },
+            { label: "Avg Rating",       value: user?.averageRating ? `${user.averageRating} ⭐` : "N/A", icon: <FaStar />, color: "bg-purple-500 text-white" },
+          ].map(({ label, value, icon, color }) => (
+            <div key={label} className="bg-zinc-950 border border-yellow-500/10 rounded-2xl p-5">
+              <div className={`w-10 h-10 ${color} rounded-xl flex items-center justify-center text-lg mb-3`}>{icon}</div>
+              <p className="text-2xl font-black">{value}</p>
+              <p className="text-gray-400 text-xs mt-1">{label}</p>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px]">
-                <thead>
-                  <tr className="border-b border-yellow-500/10 text-left">
-                    <th className="p-5 text-gray-400 font-semibold">ID</th>
-                    <th className="p-5 text-gray-400 font-semibold">Route</th>
-                    <th className="p-5 text-gray-400 font-semibold">Fare Earned</th>
-                    <th className="p-5 text-gray-400 font-semibold">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rides.map((r) => (
-                    <tr key={r.id} className="border-b border-yellow-500/5">
-                      <td className="p-5 text-yellow-400 font-bold">#{r.id}</td>
-                      <td className="p-5 max-w-[250px] truncate">{r.pickup} → {r.destination}</td>
-                      <td className="p-5 font-bold text-green-400">{`₹${r.fare}`}</td>
-                      <td className="p-5 text-gray-400">{new Date(r.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          ))}
+        </div>
+
+        <div className="bg-zinc-950 border border-yellow-500/10 rounded-3xl p-6 mb-6">
+          <h2 className="text-xl font-black mb-5">This Week</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={weeklyData}>
+              <XAxis dataKey="day" stroke="#6b7280" tick={{ fontSize: 12 }} />
+              <YAxis stroke="#6b7280" tick={{ fontSize: 12 }} tickFormatter={(v) => `₹${v}`} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="earnings" fill="#FACC15" radius={[6,6,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-zinc-950 border border-yellow-500/10 rounded-3xl p-6 mb-6">
+          <h2 className="text-xl font-black mb-5">Last 6 Months</h2>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={monthlyData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+              <XAxis dataKey="month" stroke="#6b7280" tick={{ fontSize: 12 }} />
+              <YAxis stroke="#6b7280" tick={{ fontSize: 12 }} tickFormatter={(v) => `₹${v}`} />
+              <Tooltip content={<CustomTooltip />} />
+              <Line type="monotone" dataKey="earnings" stroke="#FACC15" strokeWidth={2} dot={{ fill: "#FACC15" }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-zinc-950 border border-yellow-500/10 rounded-3xl p-6">
+          <h2 className="text-xl font-black mb-5">Recent Transactions</h2>
+          {txns.length === 0 ? (
+            <p className="text-gray-500 text-sm">No transactions yet</p>
+          ) : (
+            <div className="space-y-3">
+              {txns.slice(0, 10).map((t) => (
+                <div key={t.id} className="flex items-center justify-between bg-black rounded-xl px-4 py-3 border border-yellow-500/10">
+                  <div>
+                    <p className="font-semibold text-sm">{t.description}</p>
+                    <p className="text-gray-500 text-xs">{new Date(t.createdAt).toLocaleDateString("en-IN")}</p>
+                  </div>
+                  <p className={`font-black ${t.type === "CREDIT" ? "text-green-400" : "text-red-400"}`}>
+                    {t.type === "CREDIT" ? "+" : "-"}₹{t.amount}
+                  </p>
+                </div>
+              ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </DashboardLayout>
   );
 }
-
-export default DriverEarnings;

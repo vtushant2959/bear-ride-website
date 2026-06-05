@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaSignOutAlt, FaTachometerAlt } from "react-icons/fa";
+import LangToggle from "../ui/LangToggle";
 import { useAuth } from "../../context/AuthContext";
 import logo from "../../assets/logo.png";
 
@@ -49,6 +50,7 @@ function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
+            <LangToggle />
             {user ? (
               <>
                 {/* Avatar + name */}

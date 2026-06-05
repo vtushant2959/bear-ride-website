@@ -30,26 +30,135 @@ model User {
   address          String?
   gstNumber        String?
   walletBalance    Float     @default(0)
+  loyaltyPoints    Int       @default(0)
+  averageRating    Float     @default(0)
+  totalRatings     Int       @default(0)
+  fcmToken         String?
+  preferredLang    String    @default("en")
+  referralCode     String?
+  referredBy       String?
   isActive         Boolean   @default(true)
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
-  customerBookings Booking[] @relation("CustomerBookings")
-  driverBookings   Booking[] @relation("DriverBookings")
+
+  customerBookings  Booking[]          @relation("CustomerBookings")
+  driverBookings    Booking[]          @relation("DriverBookings")
+  savedAddresses    SavedAddress[]
+  walletTxns        WalletTransaction[]
+  scheduledRides    ScheduledRide[]
+  fleetVehicles     FleetVehicle[]
+  ratingsGiven      Rating[]           @relation("RatingsGiven")
+  ratingsReceived   Rating[]           @relation("RatingsReceived")
 }
 
 model Booking {
+  id               Int       @id @default(autoincrement())
+  customerId       Int
+  driverId         Int?
+  pickup           String
+  destination      String
+  rideType         String
+  fare             Float
+  discountAmount   Float     @default(0)
+  finalFare        Float     @default(0)
+  distance         String?
+  duration         String?
+  status           String    @default("PENDING")
+  promoCode        String?
+  loyaltyEarned    Int       @default(0)
+  paymentMethod    String    @default("CASH")
+  paymentStatus    String    @default("PENDING")
+  razorpayOrderId  String?
+  razorpayPaymentId String?
+  scheduledAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  customer  User    @relation("CustomerBookings", fields: [customerId], references: [id])
+  driver    User?   @relation("DriverBookings", fields: [driverId], references: [id])
+  rating    Rating?
+}
+
+model Rating {
+  id         Int      @id @default(autoincrement())
+  bookingId  Int      @unique
+  fromUserId Int
+  toUserId   Int
+  fromRole   String
+  rating     Int
+  comment    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  booking    Booking  @relation(fields: [bookingId], references: [id])
+  fromUser   User     @relation("RatingsGiven",    fields: [fromUserId], references: [id])
+  toUser     User     @relation("RatingsReceived", fields: [toUserId],   references: [id])
+}
+
+model SavedAddress {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  label     String
+  address   String
+  lat       Float?
+  lng       Float?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model PromoCode {
+  id        Int          @id @default(autoincrement())
+  code      String       @unique
+  discount  Float
+  type      String       @default("PERCENTAGE")
+  maxUses   Int          @default(100)
+  usedCount Int          @default(0)
+  minFare   Float        @default(0)
+  isActive  Boolean      @default(true)
+  expiresAt DateTime?
+  createdAt DateTime     @default(now())
+  usages    PromoUsage[]
+}
+
+model PromoUsage {
+  id        Int       @id @default(autoincrement())
+  promoId   Int
+  userId    Int
+  bookingId Int?
+  createdAt DateTime  @default(now())
+  promo     PromoCode @relation(fields: [promoId], references: [id])
+}
+
+model WalletTransaction {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  amount      Float
+  type        String
+  description String
+  reference   String?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model ScheduledRide {
   id          Int      @id @default(autoincrement())
   customerId  Int
-  driverId    Int?
   pickup      String
   destination String
   rideType    String
-  fare        Float
-  distance    String?
-  duration    String?
+  scheduledAt DateTime
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  customer    User     @relation("CustomerBookings", fields: [customerId], references: [id])
-  driver      User?    @relation("DriverBookings", fields: [driverId], references: [id])
+  customer    User     @relation(fields: [customerId], references: [id])
+}
+
+model FleetVehicle {
+  id            Int      @id @default(autoincrement())
+  vendorId      Int
+  vehicleType   String
+  vehicleNumber String
+  driverName    String?
+  driverPhone   String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  vendor        User     @relation(fields: [vendorId], references: [id])
 }

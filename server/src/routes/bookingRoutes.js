@@ -1,30 +1,32 @@
-const express = require("express");
-const router = express.Router();
-const authenticate = require("../middlewares/auth.middleware");
+const express   = require("express");
+const router    = express.Router();
+const auth      = require("../middlewares/auth.middleware");
 const authorize = require("../middlewares/role.middleware");
+const ctrl      = require("../controllers/booking.controller");
+const promo     = require("../controllers/promo.controller");
 
-const {
-  createBooking,
-  getCustomerBookings,
-  getBookingById,
-  updateBookingStatus,
-  getPendingBookings,
-  acceptBooking,
-  getDriverBookings,
-  startRide,
-  completeRide,
-  cancelRide,
-} = require("../controllers/booking.controller");
+// Fare calculator (public)
+router.get("/calculate-fare", ctrl.calculateFare);
 
-router.post("/", authenticate, authorize("CUSTOMER"), createBooking);
-router.get("/my-rides", authenticate, authorize("CUSTOMER"), getCustomerBookings);
-router.get("/my-driver-rides", authenticate, authorize("DRIVER"), getDriverBookings);
-router.get("/pending", authenticate, authorize("DRIVER", "ADMIN"), getPendingBookings);
-router.get("/:id", authenticate, getBookingById);
-router.patch("/:id/status", authenticate, authorize("ADMIN"), updateBookingStatus);
-router.patch("/:id/accept", authenticate, authorize("DRIVER"), acceptBooking);
-router.patch("/:id/start", authenticate, authorize("DRIVER"), startRide);
-router.patch("/:id/complete", authenticate, authorize("DRIVER"), completeRide);
-router.patch("/:id/cancel", authenticate, cancelRide);
+// Promo validation (authenticated)
+router.post("/validate-promo", auth, promo.validatePromo);
+
+// Booking CRUD
+router.post("/",                auth, authorize("CUSTOMER"), ctrl.createBooking);
+router.get("/my-rides",         auth, authorize("CUSTOMER"), ctrl.getCustomerBookings);
+router.get("/my-driver-rides",  auth, authorize("DRIVER"),   ctrl.getDriverBookings);
+router.get("/pending",          auth, authorize("DRIVER", "ADMIN"), ctrl.getPendingBookings);
+
+// Scheduled rides
+router.post("/schedule",        auth, authorize("CUSTOMER"), ctrl.createScheduled);
+router.get("/scheduled",        auth, authorize("CUSTOMER"), ctrl.getScheduledRides);
+router.patch("/scheduled/:id/cancel", auth, ctrl.cancelScheduled);
+
+router.get("/:id",              auth, ctrl.getBookingById);
+router.patch("/:id/status",     auth, authorize("ADMIN"),    ctrl.updateBookingStatus);
+router.patch("/:id/accept",     auth, authorize("DRIVER"),   ctrl.acceptBooking);
+router.patch("/:id/start",      auth, authorize("DRIVER"),   ctrl.startRide);
+router.patch("/:id/complete",   auth, authorize("DRIVER"),   ctrl.completeRide);
+router.patch("/:id/cancel",     auth, ctrl.cancelRide);
 
 module.exports = router;
