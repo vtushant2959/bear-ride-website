@@ -52,7 +52,7 @@ exports.completeRegistration = async (req, res) => {
       where: { id: userId },
       data,
       select: {
-        id: true, fullName: true, phone: true, email: true, role: true,
+        id: true, fullName: true, phone: true, email: true, role: true, roles: true,
         isVerified: true, walletBalance: true, profilePhoto: true,
         vehicleType: true, vehicleNumber: true, licenseNumber: true,
         vehicleRC: true, driverStatus: true,
@@ -61,10 +61,93 @@ exports.completeRegistration = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ success: true, user });
+    return res.status(200).json({ success: true, user: { ...user, roles: safeParseRoles(user.roles) } });
   } catch (error) {
     console.error("COMPLETE REGISTRATION ERROR:", error);
     return res.status(500).json({ success: false, message: "Registration completion failed" });
+  }
+};
+
+const PROFILE_SELECT = {
+  id: true, fullName: true, phone: true, email: true, role: true, roles: true,
+  isVerified: true, walletBalance: true, profilePhoto: true,
+  vehicleType: true, vehicleNumber: true, licenseNumber: true,
+  vehicleRC: true, driverStatus: true,
+  businessName: true, businessType: true, address: true, gstNumber: true,
+  isActive: true, createdAt: true,
+};
+
+const safeParseRoles = (raw) => {
+  try { return JSON.parse(raw || '["CUSTOMER"]'); } catch { return ["CUSTOMER"]; }
+};
+
+exports.addRole = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { role } = req.body;
+
+    if (!["CUSTOMER", "DRIVER", "VENDOR"].includes(role)) {
+      return res.status(400).json({ success: false, message: "Invalid role" });
+    }
+
+    const existing = await prisma.user.findUnique({ where: { id: userId } });
+    const currentRoles = safeParseRoles(existing.roles);
+
+    if (currentRoles.includes(role)) {
+      return res.status(400).json({ success: false, message: `You already have the ${role} role` });
+    }
+
+    const tag  = `user_${userId}_${Date.now()}`;
+    const data = { roles: JSON.stringify([...currentRoles, role]) };
+
+    if (role === "DRIVER") {
+      const { vehicleType, vehicleNumber, licenseNumber } = req.body;
+      if (!vehicleType || !vehicleNumber) {
+        return res.status(400).json({ success: false, message: "vehicleType and vehicleNumber are required" });
+      }
+      data.vehicleType   = vehicleType;
+      data.vehicleNumber = vehicleNumber.toUpperCase().replace(/\s/g, "");
+      if (licenseNumber) data.licenseNumber = licenseNumber;
+
+      if (!req.files?.vehicleRC?.[0]) {
+        return res.status(400).json({ success: false, message: "Vehicle RC image is required" });
+      }
+      data.vehicleRC = await uploadToCloudinary(
+        req.files.vehicleRC[0].buffer, "vehicle_rc", `rc_${tag}`
+      );
+      if (req.files?.profilePhoto?.[0] && !existing.profilePhoto) {
+        data.profilePhoto = await uploadToCloudinary(
+          req.files.profilePhoto[0].buffer, "profile_photos", `profile_${tag}`
+        );
+      }
+      data.driverStatus = "PENDING";
+    }
+
+    if (role === "VENDOR") {
+      const { businessName, gstNumber, address } = req.body;
+      if (!businessName || !address) {
+        return res.status(400).json({ success: false, message: "businessName and address are required" });
+      }
+      data.businessName = businessName;
+      if (gstNumber) data.gstNumber = gstNumber;
+      data.address = address;
+      if (req.files?.profilePhoto?.[0] && !existing.profilePhoto) {
+        data.profilePhoto = await uploadToCloudinary(
+          req.files.profilePhoto[0].buffer, "profile_photos", `profile_${tag}`
+        );
+      }
+    }
+
+    const user = await prisma.user.update({ where: { id: userId }, data, select: PROFILE_SELECT });
+
+    return res.status(200).json({
+      success: true,
+      message: `${role} role added successfully!`,
+      user: { ...user, roles: safeParseRoles(user.roles) },
+    });
+  } catch (error) {
+    console.error("ADD ROLE ERROR:", error);
+    return res.status(500).json({ success: false, message: "Failed to add role" });
   }
 };
 
@@ -84,30 +167,10 @@ exports.updateProfile = async (req, res) => {
     const user = await prisma.user.update({
       where: { id: req.user.id },
       data,
-      select: {
-        id: true,
-        fullName: true,
-        phone: true,
-        email: true,
-        role: true,
-        isVerified: true,
-        walletBalance: true,
-        vehicleType: true,
-        vehicleNumber: true,
-        licenseNumber: true,
-        ownPhoto: true,
-        vehiclePhoto: true,
-        licensePhoto: true,
-        vehicleRC: true,
-        driverStatus: true,
-        businessName: true,
-        businessType: true,
-        isActive: true,
-        createdAt: true,
-      },
+      select: PROFILE_SELECT,
     });
 
-    return res.status(200).json({ success: true, user });
+    return res.status(200).json({ success: true, user: { ...user, roles: safeParseRoles(user.roles) } });
   } catch (error) {
     console.error("UPDATE PROFILE ERROR:", error);
     return res.status(500).json({ success: false, message: "Failed to update profile" });

@@ -19,7 +19,11 @@ function OTP() {
   const isRegister   = location.state?.isRegister  || false;
   const phoneDisplay = location.state?.phone || "";
 
-  const redirectByRole = (role) => {
+  const redirectAfterLogin = (userData) => {
+    const roles = Array.isArray(userData.roles) ? userData.roles : [userData.role];
+    // Multiple roles → role picker
+    if (roles.length > 1) return navigate("/role-picker");
+    const role = roles[0] || userData.role;
     if (role === "DRIVER")  return navigate("/dashboard/driver");
     if (role === "VENDOR")  return navigate("/dashboard/vendor");
     if (role === "ADMIN")   return navigate("/admin");
@@ -118,7 +122,7 @@ function OTP() {
 
           login(userData, jwtToken);
           toast.success(isRegister ? "🎉 Account created! Welcome to BearRide" : "✅ Login successful!");
-          redirectByRole(userData.role);
+          redirectAfterLogin(userData);
           return;
         }
       } catch (backendErr) {
@@ -145,7 +149,7 @@ function OTP() {
       clearTempStore();
       login(localUser, firebaseToken);
       toast.success(isRegister ? "🎉 Account created! Welcome to BearRide" : "✅ Login successful!");
-      redirectByRole(localUser.role);
+      redirectAfterLogin(localUser);
 
     } catch (error) {
       console.error("OTP verification error:", error);

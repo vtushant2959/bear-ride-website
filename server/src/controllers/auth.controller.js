@@ -2,6 +2,10 @@ const prisma = require("../config/prisma");
 const jwt = require("jsonwebtoken");
 const admin = require("../config/firebase");
 
+const safeParseRoles = (raw) => {
+  try { return JSON.parse(raw || '["CUSTOMER"]'); } catch { return ["CUSTOMER"]; }
+};
+
 const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, phone: user.phone, role: user.role },
@@ -9,6 +13,27 @@ const generateToken = (user) => {
     { expiresIn: "7d" }
   );
 };
+
+const buildSafeUser = (user) => ({
+  id:           user.id,
+  fullName:     user.fullName,
+  phone:        user.phone,
+  email:        user.email,
+  role:         user.role,
+  roles:        safeParseRoles(user.roles),
+  isVerified:   user.isVerified,
+  walletBalance: user.walletBalance,
+  profilePhoto: user.profilePhoto,
+  vehicleType:  user.vehicleType,
+  vehicleNumber: user.vehicleNumber,
+  vehicleRC:    user.vehicleRC,
+  driverStatus: user.driverStatus,
+  businessName: user.businessName,
+  address:      user.address,
+  gstNumber:    user.gstNumber,
+  isActive:     user.isActive,
+  createdAt:    user.createdAt,
+});
 
 exports.firebaseLogin = async (req, res) => {
   try {
@@ -25,7 +50,7 @@ exports.firebaseLogin = async (req, res) => {
       return res.status(401).json({ success: false, message: "Invalid Firebase token" });
     }
 
-    const phone = decodedToken.phone_number;
+    const phone      = decodedToken.phone_number;
     const firebaseUid = decodedToken.uid;
 
     if (!phone) {
@@ -36,15 +61,25 @@ exports.firebaseLogin = async (req, res) => {
 
     if (!user) {
       const registerData = req.body.registerData;
+      const role = registerData?.role || "CUSTOMER";
 
       user = await prisma.user.create({
         data: {
-          fullName: registerData?.fullName || "BearRide User",
+          fullName:   registerData?.fullName || "BearRide User",
           phone,
-          email: registerData?.email || null,
-          role: registerData?.role || "CUSTOMER",
+          email:      registerData?.email || null,
+          role,
+          roles:      JSON.stringify([role]),
           firebaseUid,
           isVerified: true,
+          // Vendor text fields saved at account creation
+          businessName: registerData?.businessName || null,
+          gstNumber:    registerData?.gstNumber    || null,
+          address:      registerData?.address      || null,
+          // Driver text fields
+          vehicleType:   registerData?.vehicleType   || null,
+          vehicleNumber: registerData?.vehicleNumber || null,
+          licenseNumber: registerData?.licenseNumber || null,
         },
       });
     } else {
@@ -58,29 +93,10 @@ exports.firebaseLogin = async (req, res) => {
 
     const jwtToken = generateToken(user);
 
-    const safeUser = {
-      id: user.id,
-      fullName: user.fullName,
-      phone: user.phone,
-      email: user.email,
-      role: user.role,
-      isVerified: user.isVerified,
-      walletBalance: user.walletBalance,
-      profilePhoto: user.profilePhoto,
-      vehicleType: user.vehicleType,
-      vehicleNumber: user.vehicleNumber,
-      vehicleRC: user.vehicleRC,
-      driverStatus: user.driverStatus,
-      businessName: user.businessName,
-      address: user.address,
-      gstNumber: user.gstNumber,
-      isActive: user.isActive,
-    };
-
     return res.status(200).json({
       success: true,
-      token: jwtToken,
-      user: safeUser,
+      token:   jwtToken,
+      user:    buildSafeUser(user),
     });
   } catch (error) {
     console.error("FIREBASE LOGIN ERROR:", error);
@@ -93,25 +109,12 @@ exports.getMe = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
       select: {
-        id: true,
-        fullName: true,
-        phone: true,
-        email: true,
-        role: true,
-        isVerified: true,
-        walletBalance: true,
-        profilePhoto: true,
-        vehicleType: true,
-        vehicleNumber: true,
-        licenseNumber: true,
-        vehicleRC: true,
-        driverStatus: true,
-        businessName: true,
-        businessType: true,
-        address: true,
-        gstNumber: true,
-        isActive: true,
-        createdAt: true,
+        id: true, fullName: true, phone: true, email: true,
+        role: true, roles: true, isVerified: true, walletBalance: true,
+        profilePhoto: true, vehicleType: true, vehicleNumber: true,
+        licenseNumber: true, vehicleRC: true, driverStatus: true,
+        businessName: true, businessType: true, address: true, gstNumber: true,
+        isActive: true, createdAt: true,
       },
     });
 
@@ -119,7 +122,7 @@ exports.getMe = async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    return res.status(200).json({ success: true, user });
+    return res.status(200).json({ success: true, user: buildSafeUser(user) });
   } catch (error) {
     console.error("GET ME ERROR:", error);
     return res.status(500).json({ success: false, message: "Failed to fetch user" });
